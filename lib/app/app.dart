@@ -9,5 +9,5 @@ final locator=GetIt.instance;
 
 Future <void> setupLocator() async{
   locator.registerLazySingleton(()=>CoinApiService());
-  //locator.registerLazySingleton(()=>WatchlistService());
+  locator.registerLazySingleton(()=>WatchlistService());
 }
