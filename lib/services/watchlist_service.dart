@@ -10,6 +10,7 @@ class WatchlistService with ListenableServiceMixin {
   Future<void> init() async{
     final prefs=await SharedPreferences.getInstance();
     final saved=prefs.getStringList(_prefskey)??[];
+    print('Watchlist Loaded from Disk: $saved');
     _savedCoinsId
     ..clear()
     ..addAll(saved);
