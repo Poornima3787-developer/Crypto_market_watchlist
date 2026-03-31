@@ -5,9 +5,9 @@ import 'package:get_it/get_it.dart';
 import '../services/coin_api_service.dart';
 import '../services/watchlist_service.dart';
 
-final locator=GetIt.instance;
+final locator = GetIt.instance;
 
-Future <void> setupLocator() async{
-  locator.registerLazySingleton(()=>CoinApiService());
-  locator.registerLazySingleton(()=>WatchlistService());
+Future<void> setupLocator() async {
+  locator.registerLazySingleton(() => CoinApiService());
+  locator.registerLazySingleton(() => WatchlistService());
 }
