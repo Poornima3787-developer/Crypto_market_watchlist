@@ -5,6 +5,7 @@ class Coin {
   final double price;
   final double change24h;
   final String image;
+  final List<double> sparkline;
 
   Coin({
     required this.id,
@@ -13,6 +14,7 @@ class Coin {
     required this.price,
     required this.change24h,
     required this.image,
+    required this.sparkline,
   });
 
   factory Coin.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Coin {
       price: (json['current_price'] ?? 0).toDouble(),
       change24h: (json['price_change_percentage_24h'] ?? 0).toDouble(),
       image:json['image'] as String,
+      sparkline:(json['sparkline_in_7d']?['price']as List?)?.map((e)=>(e as num).toDouble()).toList()??[],
     );
   }
 }
