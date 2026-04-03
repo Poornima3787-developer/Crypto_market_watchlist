@@ -11,13 +11,15 @@ class MarketViewModel extends ReactiveViewModel {
   final _coinService = locator<CoinService>();
 
   List<Coin> _coins = [];
-  List<Coin> get coins => _coins;
+  List<Coin> _filteredCoins = [];
+  List<Coin> get coins => _filteredCoins;
 
   Future<void> fetchCoins() async {
     setBusy(true);
     try {
       _coins = await _api.fetchTopCoins(1);
-       _coinService.setCoins(_coins);
+      _filteredCoins = _coins;
+      _coinService.setCoins(_coins);
     } catch (e) {
       setError(e);
     }
@@ -27,11 +29,23 @@ class MarketViewModel extends ReactiveViewModel {
   @override
   List<ListenableServiceMixin> get listenableServices => [_watchList];
 
-  Future<void> toggleFavorite(String id) async{
+  Future<void> toggleFavorite(String id) async {
     await _watchList.toggleFavorite(id);
   }
 
   bool isFavorite(String id) {
     return _watchList.isFavorite(id);
+  }
+
+  void searchCoins(String query) {
+    if (query.isEmpty) {
+      _filteredCoins = _coins;
+    } else {
+      _filteredCoins = _coins.where((coin) {
+        return coin.name.toLowerCase().contains(query.toLowerCase()) ||
+            coin.symbol.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    }
+    notifyListeners();
   }
 }

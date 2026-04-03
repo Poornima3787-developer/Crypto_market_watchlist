@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 import '../../models/coin.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -22,8 +23,8 @@ class CoinListItem extends StatelessWidget {
 
     return ListTile(
       isThreeLine: true,
-      contentPadding:const EdgeInsets.symmetric(horizontal: 16,vertical:8),
-      leading: Image.network(coin.image, width: 36, height: 36),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      leading: Hero(tag:'coin-logo-${coin.id}',child: Image.network(coin.image, width: 36, height: 36)),
       title: Text(
         coin.name,
         style: const TextStyle(fontWeight: FontWeight.w500),
@@ -51,10 +52,7 @@ class CoinListItem extends StatelessWidget {
                       spots: coin.sparkline
                           .asMap()
                           .entries
-                          .map((e) => FlSpot(
-                                e.key.toDouble(),
-                                e.value,
-                              ))
+                          .map((e) => FlSpot(e.key.toDouble(), e.value))
                           .toList(),
                       dotData: FlDotData(show: false),
                       color: changeColor,
@@ -67,7 +65,7 @@ class CoinListItem extends StatelessWidget {
         ],
       ),
       trailing: Row(
-        mainAxisSize:MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,19 +81,20 @@ class CoinListItem extends StatelessWidget {
               ),
             ],
           ),
-              const SizedBox(width:8),
+          const SizedBox(width: 8),
 
-              IconButton(constraints: const BoxConstraints(),
-              padding:EdgeInsets.zero,
-              onPressed: onFavoriteTap,
-              icon:Icon(
-                isFavorite?Icons.favorite:Icons.favorite_border,
-                color:isFavorite?Colors.red:Colors.grey,
-                size:22,
-              ),
-              ),
-            ],
+          IconButton(
+            constraints: const BoxConstraints(),
+            padding: EdgeInsets.zero,
+            onPressed: onFavoriteTap,
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: isFavorite ? Colors.red : Colors.grey,
+              size: 22,
+            ),
           ),
+        ],
+      ),
     );
   }
 }
